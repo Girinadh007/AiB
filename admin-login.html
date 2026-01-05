@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AiB | Admin Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="admin-login-page">
+    <div id="laser-container"></div>
+    <div class="login-box">
+        <h1 class="glitch" data-text="GAME MASTER">GAME MASTER</h1>
+        <div class="input-group">
+            <input type="text" id="username" placeholder="CITIZEN ID (master-1)">
+            <input type="password" id="password" placeholder="ENTRY KEY (enter-arena)">
+        </div>
+        <button onclick="loginAdmin()" class="visa-btn">INITIATE LOGIN</button>
+        <p id="login-error" class="error-msg"></p>
+    </div>
+
+    <script>
+        function loginAdmin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            // Hardcoded credentials as requested
+            if (user.startsWith('master-') && pass === 'enter-arena') {
+                sessionStorage.setItem('adminAuth', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                document.getElementById('login-error').innerText = "REGISTRATION REVOKED: INVALID KEY";
+            }
+        }
+    </script>
+</body>
+
+</html>

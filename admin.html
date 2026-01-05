@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiB | Game Master Console</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blood-red: #8b0000;
+            --neon-red: #ff0000;
+            --glass-bg: rgba(10, 10, 10, 0.9);
+        }
+
+        .admin-dashboard {
+            padding-top: 100px;
+            min-height: 100vh;
+            background: radial-gradient(circle, #2b0000 0%, #050505 100%);
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        /* Scanner Styling */
+        .scanner-section {
+            background: var(--glass-bg);
+            border: 2px solid var(--blood-red);
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+        }
+
+        #reader {
+            width: 100% !important;
+            border: 1px solid var(--neon-red) !important;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Attendance Table Styling */
+        .list-section {
+            background: var(--glass-bg);
+            border: 2px solid var(--blood-red);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--blood-red);
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--blood-red);
+            padding: 12px;
+            text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        tr.new-entry {
+            animation: glow 1.5s ease-out;
+        }
+
+        @keyframes glow {
+            0% {
+                background: rgba(255, 0, 0, 0.5);
+            }
+
+            100% {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        .status-badge {
+            color: #00ff00;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .stat-box {
+            font-size: 1.2rem;
+            color: var(--neon-red);
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="admin-dashboard">
+    <nav class="navbar">
+        <div class="logo-group">
+            <img src="college_logo.jpeg" alt="College Logo" class="nav-logo">
+            <img src="club_logo.png" alt="Club Logo" class="nav-logo">
+        </div>
+        <div id="sync-status" style="color: #00ff00; font-size: 0.8rem;">SYSTEM SYNCED: MASTER SESSION</div>
+        <button onclick="logoutAdmin()" class="nav-links"
+            style="background:none; border:none; cursor:pointer; color:red;">TERMINATE SESSION</button>
+    </nav>
+
+    <div class="admin-grid">
+        <section class="scanner-section">
+            <h2 class="glitch" data-text="SCAN VISA">SCAN VISA</h2>
+            <div id="reader"></div>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #aaa;">Position Player QR within the frame to verify.
+            </p>
+        </section>
+
+        <section class="list-section">
+            <div class="header-flex">
+                <div>
+                    <h2 class="glitch" data-text="SURVIVORS">SURVIVORS</h2>
+                    <div class="stat-box">PRESENT: <span id="present-count">0</span></div>
+                </div>
+                <button onclick="downloadAttendanceCSV()" class="visa-btn">DOWNLOAD PRESENT CSV</button>
+            </div>
+
+            <div style="max-height: 500px; overflow-y: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PLAYER NAME</th>
+                            <th>REG NO</th>
+                            <th>DEPT</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="present-rows">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script type="module" src="admin.js"></script>
+
+    <script>
+        // Security check for session
+        if (sessionStorage.getItem('adminAuth') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+
+        function logoutAdmin() {
+            sessionStorage.clear();
+            window.location.href = 'admin-login.html';
+        }
+
+        // Initialize Scanner on load
+        function onScanSuccess(decodedText) {
+            // This function is defined in admin.js to handle Firebase updates
+            if (window.handleQrScan) {
+                window.handleQrScan(decodedText);
+            }
+        }
+
+        const html5QrCode = new Html5Qrcode("reader");
+        const config = { fps: 15, qrbox: { width: 250, height: 250 } };
+
+        html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess)
+            .catch(err => console.error("Camera start error:", err));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+:root {
+    --blood-red: #8b0000;
+    --neon-red: #ff0000;
+    --dark-bg: #050505;
+    /* This is the gradient you requested */
+    --blood-gradient: linear-gradient(180deg, #2b0000 0%, #8b0000 50%, #2b0000 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: white;
+    font-family: 'Orbitron', sans-serif;
+    overflow-x: hidden;
+}
+
+/* Navigation Bar Fix */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.85);
+    border-bottom: 2px solid var(--blood-red);
+    z-index: 1000;
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    /* Prevents stretching */
+    filter: drop-shadow(0 0 5px rgba(255, 0, 0, 0.5));
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--neon-red);
+    text-shadow: 0 0 10px var(--neon-red);
+}
+
+/* Hero Section with Gradient */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 80px;
+    /* Space for Nav Bar */
+    background: radial-gradient(circle, rgba(139, 0, 0, 0.15) 0%, rgba(0, 0, 0, 1) 70%);
+}
+
+.stage-card {
+    background: var(--blood-gradient);
+    /* Applied Gradient here */
+    border: 1px solid var(--neon-red);
+    padding: 20px;
+    text-align: center;
+    width: 200px;
+    margin: 10px;
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+    /* Stencil Look */
+}
+
+/* Button with Interactive Blood Effect */
+.visa-btn {
+    background: var(--blood-red);
+    color: white;
+    padding: 18px 35px;
+    border: 2px solid var(--neon-red);
+    text-decoration: none;
+    font-weight: 900;
+    box-shadow: 0 0 15px var(--blood-red);
+    transition: all 0.4s ease;
+}
+
+.visa-btn:hover {
+    background: var(--neon-red);
+    box-shadow: 0 0 40px var(--neon-red);
+    transform: translateY(-5px);
+}

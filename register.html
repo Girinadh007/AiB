@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AiB | Get Your Visa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="laser-container"></div>
+
+    <div class="registration-box">
+        <h2 class="glitch">VISA REGISTRATION</h2>
+
+        <div id="step1" class="form-step">
+            <h3>Step 1: Player Info</h3>
+            <input type="text" id="team_name" placeholder="Team Name (Max 4 Players)" required>
+            <input type="number" id="player_count" placeholder="Number of Players" min="1" max="4"
+                onchange="calculateTotal()">
+            <textarea id="player_details" placeholder="Name, Reg No, Year, Dept, Section (One per line)"></textarea>
+            <button
+                onclick="document.getElementById('step1').style.display='none'; document.getElementById('step2').style.display='block'">NEXT:
+                PAYMENT</button>
+        </div>
+
+        <div id="step2" class="form-step" style="display:none;">
+            <h3>Step 2: Transaction</h3>
+            <p id="total_amount">Total: ₹0</p>
+            <img id="bank_qr" src="" alt="Scan to Pay" style="width:200px; border: 5px solid white;">
+            <input type="text" id="trans_id" placeholder="Enter Transaction ID (UTR)" required>
+            <button onclick="completeRegistration()">CONFIRM & GENERATE VISA</button>
+        </div>
+
+        <div id="step3" class="form-step" style="display:none;">
+            <h3 style="color: #00ff00;">VISA GRANTED</h3>
+            <div id="visa_qr_display"></div>
+            <p>Save this QR. This is your life in the Borderland.</p>
+            <button onclick="window.print()">DOWNLOAD VISA</button>
+        </div>
+    </div>
+
+    <script type="module" src="register.js"></script>
+</body>
+
+</html>
